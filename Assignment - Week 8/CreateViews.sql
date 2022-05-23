@@ -2,7 +2,7 @@
 ----Pass-through views of Dimension and Fact Tables
 --==================================================
 
-CREATE VIEW VIEW_DIM_CHANNEL
+CREATE SECURE VIEW VIEW_DIM_CHANNEL
 AS
 SELECT  
         DIMCHANNELID, 
@@ -12,7 +12,7 @@ SELECT
         CHANNELCATEGORY
 FROM DIM_CHANNEL;
 
-CREATE VIEW VIEW_DIM_CUSTOMER
+CREATE SECURE VIEW VIEW_DIM_CUSTOMER
 AS
 SELECT  
         DIMCUSTOMERID, 
@@ -26,7 +26,7 @@ SELECT
         PHONENUMBER
 FROM DIM_CUSTOMER;
 
-CREATE VIEW VIEW_DIM_DATE
+CREATE SECURE VIEW VIEW_DIM_DATE
 AS
 SELECT 
         DATE_PKEY,
@@ -67,7 +67,7 @@ SELECT
 FROM DIM_DATE;
 
 
-CREATE VIEW VIEW_DIM_LOCATION
+CREATE SECURE VIEW VIEW_DIM_LOCATION
 AS
 SELECT 
         DIMLOCATIONID,
@@ -77,10 +77,10 @@ SELECT
         CITY, 
         STATE_PROVINCE, 
         COUNTRY
-FROM DIM_LOCATION
+FROM DIM_LOCATION;
 
 
-CREATE VIEW VIEW_DIM_PRODUCT
+CREATE SECURE VIEW VIEW_DIM_PRODUCT
 AS
 SELECT 
         DIMPRODUCTID,
@@ -96,13 +96,11 @@ SELECT
         PRODUCTRETAILPROFIT,
         PRODUCTWHOLESALEUNITPROFIT,
         PRODUCTPROFITMARGINUNITPERCENT
-FROM DIM_PRODUCT
-
-SELECT * FROM VIEW_DIM_PRODUCT
-SELECT * FROM DIM_PRODUCT
+FROM DIM_PRODUCT;
 
 
-CREATE VIEW VIEW_DIM_RESELLER
+
+CREATE SECURE VIEW VIEW_DIM_RESELLER
 AS
 SELECT 
         DIMRESELLERID,
@@ -112,11 +110,11 @@ SELECT
         CONTACTNAME, 
         PHONENUMBER, 
         EMAIL
-FROM DIM_RESELLER
+FROM DIM_RESELLER;
 
 
 
-CREATE VIEW View_Dim_Store
+CREATE SECURE VIEW View_Dim_Store
     AS
     SELECT 
         DimStoreID,
@@ -124,12 +122,11 @@ CREATE VIEW View_Dim_Store
         SourceStoreID, 
         StoreNumber, 
         StoreManager
-    FROM Dim_Store
+    FROM Dim_Store;
     
-SELECT * FROM View_Dim_Store
-SELECT * FROM Dim_Store
 
-CREATE VIEW view_fact_salesactual
+
+CREATE SECURE VIEW view_fact_salesactual
 AS
 SELECT
   DimProductID,
@@ -149,7 +146,7 @@ SELECT
 FROM Fact_SalesActual;
 
 
-CREATE VIEW view_fact_SRCSalesTarget
+CREATE SECURE VIEW view_fact_SRCSalesTarget
 AS
 SELECT
   DimStoreID,
@@ -160,7 +157,7 @@ SELECT
 FROM Fact_SRCSalestarget;
 
 
-CREATE VIEW view_fact_ProductSalesTarget
+CREATE SECURE VIEW view_fact_ProductSalesTarget
 AS
 SELECT
     DimProductID,
@@ -182,7 +179,7 @@ What should be done in the next year to maximize store profits?
 -- These values will help me see how the stores are performing against their targets and if there's any seasonanilty observed
 -- The trend of 2013 can then be extrapolated to see if the 2014 target would be met for the last two months
 
-CREATE VIEW View_TargetVsSales_Month_Year_Wise 
+CREATE SECURE VIEW View_TargetVsSales_Month_Year_Wise 
 AS
     WITH temp1 AS 
       (SELECT 
@@ -244,14 +241,12 @@ AS
        temp1.MONTH_NUM_IN_YEAR;
 
 
-select * from View_TargetVsSales_Month_Year_Wise
-
 
 -- To look at whether any store needs to be closed, I will be assessing their profits aggregated over all products at the month-level
 -- The month-level aggregation would help me consider if any months have better profits observed across both stores to focus on extra offers during 
 -- the less profitable months so as to maximize profits
 
-CREATE VIEW View_ProfitsByStore_Month_Year_Wise 
+CREATE SECURE VIEW View_ProfitsByStore_Month_Year_Wise 
 AS 
   SELECT 
     dd.YEAR,
@@ -301,7 +296,7 @@ I decided the criteria as number of items sold. Now, while distributing the bonu
 revenue/profits/items due to each salesperson and distribute the bonus accordingly.
 */ 
 
-CREATE OR REPLACE VIEW View_BonusAmounts 
+CREATE SECURE VIEW View_BonusAmounts 
 AS 
   WITH data_collector AS 
       (
@@ -371,8 +366,7 @@ SELECT
         data_collector.YEAR, 
         data_collector.StoreNumber; 
     
-    
-select * from "IMT577_DW_ALWIN_ELDHOSE"."PUBLIC"."VIEW_BONUSAMOUNTS"
+   
 
 
 
@@ -387,7 +381,7 @@ select * from "IMT577_DW_ALWIN_ELDHOSE"."PUBLIC"."VIEW_BONUSAMOUNTS"
     at for day-wise trends at various levels.
 
 */
-CREATE VIEW View_ProductSales_Day_Wise
+CREATE SECURE VIEW View_ProductSales_Day_Wise
 AS
   SELECT 
     dd.DAY_ABBREV, 
@@ -416,7 +410,7 @@ AS
     dp.ProductCategory, 
     dp.ProductType, 
     dp.ProductName
-  ORDER BY dd.DAY_ABBREV
+  ORDER BY dd.DAY_ABBREV;
 
 
 /*
@@ -430,7 +424,7 @@ in the state. What can we learn about having more than one store in a state?
 */
 
 
-CREATE VIEW View_SalesByLocationCategory 
+CREATE SECURE VIEW View_SalesByLocationCategory 
 AS
 WITH Check_StoreCount AS 
   (
